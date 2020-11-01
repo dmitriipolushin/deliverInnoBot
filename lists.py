@@ -16,7 +16,8 @@ def published_offers(message):
         message: answer from telegram api.
     """
     chat_id = message.chat.id
-
+    if not db.user_exists(chat_id):
+            db.new_user(chat_id, message.from_user.username)
     # list of published offers from MongoDB
     offers_list = list_published_offers(chat_id)
     if len(offers_list) == 0:
@@ -60,6 +61,8 @@ def taken_offers(message):
         message: answer from telegram api.
     """
     chat_id = message.chat.id
+    if not db.user_exists(chat_id):
+        db.new_user(chat_id, message.from_user.username)
     offers_list = list_taken_offers(chat_id)
     if len(offers_list) == 0:
         bot.send_message(chat_id, empty_list)
@@ -100,6 +103,8 @@ def all_offers(message):
         message: answer from telegram api.
     """
     chat_id = message.chat.id
+    if not db.user_exists(chat_id):
+        db.new_user(chat_id, message.from_user.username)
     # we get the information about every user except the one with id - chat_id
     all_users = list_all_offers(chat_id)
     offer_counter = 0
@@ -154,7 +159,8 @@ def callback_inline(call):
             # to get the id of employer and number of offer we split it py space and take first and second element
             user_id = int(response[1])
             number = response[2]
-            
+            if not db.user_exists(chat_id):
+                db.new_user(chat_id, message.from_user.username)
             take_offer(chat_id, user_id, number)
 
             # message to person who will deliver
