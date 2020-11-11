@@ -45,7 +45,7 @@ def start_app():
 
     time.sleep(1)
     # Set webhook
-    bot.set_webhook(url='https://46b9b795c887.ngrok.io' + WEBHOOK_URL_PATH)
+    bot.set_webhook(url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH)
                     # certificate=open(WEBHOOK_SSL_CERT, 'r'))
     
     app.run(host=WEBHOOK_LISTEN,
