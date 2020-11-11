@@ -6,6 +6,7 @@ from keyboards import *
 import lists
 import db as db
 import time
+import app
 
 
 def operations(message, operation):
@@ -204,11 +205,4 @@ def approve_offer(message, approved, chat_id):
 
 
 if __name__ == '__main__':
-    # TODO: сделать нормальный поллинг бота, а то это кринж какой-то
-    while True:
-        try:
-            bot.polling(none_stop=True)
-
-        except Exception as e:
-            time.sleep(5)
-            print("exception with polling")
+    app.start_app()
