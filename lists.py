@@ -16,8 +16,8 @@ def published_offers(message):
         message: answer from telegram api.
     """
     chat_id = message.chat.id
-    if not db.user_exists(chat_id):
-            db.new_user(chat_id, message.from_user.username)
+    if not user_exists(chat_id):
+        new_user(chat_id, message.from_user.username)
     # list of published offers from MongoDB
     offers_list = list_published_offers(chat_id)
     if len(offers_list) == 0:
