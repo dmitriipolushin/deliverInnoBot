@@ -6,7 +6,9 @@ from keyboards import *
 import lists
 import db as db
 import time
-import app
+import flask
+import telebot
+from TOKEN import *
 
 
 def operations(message, operation):
@@ -204,5 +206,30 @@ def approve_offer(message, approved, chat_id):
     bot.register_next_step_handler(message, choose_section)
 
 
-if __name__ == '__main__':
-    app.start_app()
+app = flask.Flask(__name__)
+
+@app.route('/', methods=['GET', 'HEAD'])
+def index():
+    return ''
+
+@app.route(WEBHOOK_URL_PATH, methods=['POST'])
+def webhook():
+    if flask.request.headers.get('content-type') == 'application/json':
+        data = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(data)
+        bot.process_new_updates([update])
+        return ''
+    else:
+        flask.abort(403)
+
+def start_app():        
+
+    time.sleep(1)
+    # Set webhook
+    bot.set_webhook(url='https://a1dc5c5aaa4e.ngrok.io'+ WEBHOOK_URL_PATH)
+                    # certificate=open(WEBHOOK_SSL_CERT, 'r'))
+    
+    app.run(host=WEBHOOK_LISTEN,
+        port=WEBHOOK_PORT,
+        # ssl_context=(WEBHOOK_SSL_CERT, WEBHOOK_SSL_PRIV),
+        debug=True)

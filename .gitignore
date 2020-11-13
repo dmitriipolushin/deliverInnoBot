@@ -101,6 +101,3 @@ GitHub.sublime-settings
 
 # Visual Studio Code # 
 .vscode
-
-bot.ini
-wsgi.py
