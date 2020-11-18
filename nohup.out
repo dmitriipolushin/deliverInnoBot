@@ -1,0 +1,152 @@
+2020-11-18 04:18:33,602 (util.py:68 PollingThread) ERROR - TeleBot: "ReadTimeout occurred, args=(ReadTimeoutError("HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=30)",),)
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 372, in _make_request
+    httplib_response = conn.getresponse(buffering=True)
+TypeError: getresponse() got an unexpected keyword argument 'buffering'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 374, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.6/http/client.py", line 1373, in getresponse
+    response.begin()
+  File "/usr/lib/python3.6/http/client.py", line 311, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.6/http/client.py", line 272, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/usr/lib/python3.6/socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/lib/python3.6/ssl.py", line 1012, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/lib/python3.6/ssl.py", line 874, in read
+    return self._sslobj.read(len, buffer)
+  File "/usr/lib/python3.6/ssl.py", line 631, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/adapters.py", line 370, in send
+    timeout=timeout
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 597, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/util/retry.py", line 245, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/packages/six.py", line 310, in reraise
+    raise value
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 544, in urlopen
+    body=body, headers=headers)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 376, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 304, in _raise_timeout
+    raise ReadTimeoutError(self, url, "Read timed out. (read timeout=%s)" % timeout_value)
+requests.packages.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/util.py", line 62, in run
+    task(*args, **kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/__init__.py", line 281, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1), timeout=timeout)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/__init__.py", line 251, in get_updates
+    json_updates = apihelper.get_updates(self.token, offset, limit, timeout, allowed_updates)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 199, in get_updates
+    return _make_request(token, method_url, params=payload)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 63, in _make_request
+    timeout=(connect_timeout, read_timeout), proxies=proxy)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/sessions.py", line 465, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/sessions.py", line 573, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/adapters.py", line 433, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=30)
+"
+2020-11-18 04:18:42,116 (util.py:68 PollingThread) ERROR - TeleBot: "ConnectionError occurred, args=(ProtocolError('Connection aborted.', OSError(101, 'Network is unreachable')),)
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 544, in urlopen
+    body=body, headers=headers)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 341, in _make_request
+    self._validate_conn(conn)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 761, in _validate_conn
+    conn.connect()
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connection.py", line 204, in connect
+    conn = self._new_conn()
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connection.py", line 134, in _new_conn
+    (self.host, self.port), self.timeout, **extra_kw)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/util/connection.py", line 88, in create_connection
+    raise err
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/util/connection.py", line 78, in create_connection
+    sock.connect(sa)
+OSError: [Errno 101] Network is unreachable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/adapters.py", line 370, in send
+    timeout=timeout
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 597, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/util/retry.py", line 245, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/packages/six.py", line 309, in reraise
+    raise value.with_traceback(tb)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 544, in urlopen
+    body=body, headers=headers)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 341, in _make_request
+    self._validate_conn(conn)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 761, in _validate_conn
+    conn.connect()
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connection.py", line 204, in connect
+    conn = self._new_conn()
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/connection.py", line 134, in _new_conn
+    (self.host, self.port), self.timeout, **extra_kw)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/util/connection.py", line 88, in create_connection
+    raise err
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/packages/urllib3/util/connection.py", line 78, in create_connection
+    sock.connect(sa)
+requests.packages.urllib3.exceptions.ProtocolError: ('Connection aborted.', OSError(101, 'Network is unreachable'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/util.py", line 62, in run
+    task(*args, **kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/__init__.py", line 281, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1), timeout=timeout)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/__init__.py", line 251, in get_updates
+    json_updates = apihelper.get_updates(self.token, offset, limit, timeout, allowed_updates)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 199, in get_updates
+    return _make_request(token, method_url, params=payload)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 63, in _make_request
+    timeout=(connect_timeout, read_timeout), proxies=proxy)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/sessions.py", line 465, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/sessions.py", line 573, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/requests/adapters.py", line 415, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', OSError(101, 'Network is unreachable'))
+"
+2020-11-18 04:19:16,994 (util.py:68 PollingThread) ERROR - TeleBot: "ApiException occurred, args=('A request to the Telegram API was unsuccessful. The server returned HTTP 409 Conflict. Response body:\n[b\'{"ok":false,"error_code":409,"description":"Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"}\']',)
+Traceback (most recent call last):
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/util.py", line 62, in run
+    task(*args, **kwargs)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/__init__.py", line 281, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1), timeout=timeout)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/__init__.py", line 251, in get_updates
+    json_updates = apihelper.get_updates(self.token, offset, limit, timeout, allowed_updates)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 199, in get_updates
+    return _make_request(token, method_url, params=payload)
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 65, in _make_request
+    return _check_result(method_name, result)['result']
+  File "/home/dmitrii/.local/lib/python3.6/site-packages/telebot/apihelper.py", line 84, in _check_result
+    raise ApiException(msg, method_name, result)
+telebot.apihelper.ApiException: A request to the Telegram API was unsuccessful. The server returned HTTP 409 Conflict. Response body:
+[b'{"ok":false,"error_code":409,"description":"Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"}']
+"
+2020-11-18 04:19:16,994 (__init__.py:443 MainThread) ERROR - TeleBot: "A request to the Telegram API was unsuccessful. The server returned HTTP 409 Conflict. Response body:
+[b'{"ok":false,"error_code":409,"description":"Conflict: terminated by other getUpdates request; make sure that only one bot instance is running"}']"

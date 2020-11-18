@@ -6,9 +6,6 @@ from keyboards import *
 import lists
 import db as db
 import time
-import flask
-import telebot
-from TOKEN import *
 
 
 def operations(message, operation):
@@ -206,29 +203,8 @@ def approve_offer(message, approved, chat_id):
     bot.register_next_step_handler(message, choose_section)
 
 
-app = flask.Flask(__name__)
-
-@app.route('/', methods=['GET', 'HEAD'])
-def index():
-    return ''
-
-@app.route(WEBHOOK_URL_PATH, methods=['POST'])
-def webhook():
-    if flask.request.headers.get('content-type') == 'application/json':
-        data = flask.request.get_data().decode('utf-8')
-        update = telebot.types.Update.de_json(data)
-        bot.process_new_updates([update])
-        return ''
-    else:
-        flask.abort(403)
-
-@app.route('/set_webhook', methods=['GET', 'POST'])
-def set_webhook():        
-    # Set webhook
-    ch =  bot.set_webhook(url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH,
-		    certificate=open('/etc/ssl/server.crt', 'rb')
-		   )
-    if ch:
-        return "webhook setup is ok"
-    else:
-        return "webhook setup failed"
+if __name__ == '__main__':
+    # TODO: сделать нормальный поллинг бота, а то это кринж какой-то
+    try:
+        bot.polling(none_stop=True)
+    except Exception:pass
