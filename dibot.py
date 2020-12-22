@@ -96,7 +96,9 @@ def operations(message, operation):
         'takenoffers': lambda: lists.taken_offers(
             message
             ),
-        'profile': 
+        'profile': lambda: lists.profile(
+            message
+        ),
     }
     try:
         return set_of_operations[operation.lower()]()
