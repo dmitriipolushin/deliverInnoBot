@@ -227,3 +227,7 @@ def callback_inline(call):
                 db.kazan_status(chat_id, number)
                 bot.answer_callback_query(callback_query_id=call.id)
                 bot.send_message(chat_id, left_message)
+        except KeyError as e:
+            bot.answer_callback_query(callback_query_id=call.id)
+            print('error')
+    
