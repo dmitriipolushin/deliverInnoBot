@@ -16,12 +16,39 @@ def new_user(chat_id, alias):
                  'alias': alias,
                  'published_offers': {},
                  'taken_offers': {},
-                 'profile': { 'your_offers': 0, 
-                             'complete_offers': 0 
+                 'profile': {'published_offers': 0, 
+                             'taken_offers': 0,
+                             'in_kazan': 0,
+                             'rating': 0,
+                             'rating_count': 0,
                              },
                  }
 
     user_id = db.users.insert_one(user_info).inserted_id
+
+
+def change_profile(chat_id):
+    user = db.users.find_one({'_id': chat_id})
+    if 'your_offers' in user['profile']:
+        user['profile'] = {'published_offers': 0,
+                           'taken_offers': 0,
+                           'in_kazan': 0,
+                           'rating': 0,
+                           'rating_count': 0,
+                        }
+    db.users.save(user)
+
+
+def get_profile_num(chat_id):
+    user = db.users.find_one({'_id': chat_id})
+    profile = user['profile']
+    return [profile['published_offers'], profile['taken_offers'], profile['in_kazan']]
+
+
+def kazan_status(chat_id, status):
+    user = db.users.find_one({'_id': chat_id})
+    user['profile']['in_kazan'] = status
+    db.users.save(user)
 
     
 def user_exists(chat_id):
@@ -53,6 +80,7 @@ def approve_offer(chat_id):
     # update the id for next offer
     user['next_published_offer_id'] += 1
     db.users.save(user)
+    return dung_offer
 
 
 def list_published_offers(chat_id):
@@ -92,6 +120,10 @@ def list_all_offers(chat_id):
     """
     all_users = db.users.find({'_id': {'$nin': [chat_id]}})
     return all_users
+
+def list_users_in_kazan(chat_id):
+    kazan_users = db.users.find({'_id': {'$nin': [chat_id]}, 'profile': {'in_kazan': 1}})
+    return kazan_users
 
 
 def delete_published_offer(chat_id, offer_id):

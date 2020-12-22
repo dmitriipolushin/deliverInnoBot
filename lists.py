@@ -130,7 +130,51 @@ def all_offers(message):
     
     if offer_counter == 0:
         bot.send_message(chat_id, empty_list)
+        
 
+def profile(message):
+    chat_id = message.chat.id
+    db.change_profile(chat_id)
+    kazan_button = types.InlineKeyboardMarkup(row_width=1)
+    profile_num = db.get_profile_num(chat_id)
+    # 0 - published_offers
+    # 1 - taken_offers
+    # 2 - in_kazan
+    if profile_num[2] == 0:    
+        kazan_button.add(
+            types.InlineKeyboardButton('Arrive in Kazan', 
+                                        callback_data='kazan {} {}'.format(chat_id, 1)
+                                        )
+            )
+    else:
+        kazan_button.add(
+            types.InlineKeyboardButton('Left Kazan', 
+                                        callback_data='kazan {} {}'.format(chat_id, 0)
+                                        )
+            )
+    bot.send_message(chat_id,
+                     profile_message.format(profile_num[0], profile_num[1]), 
+                     reply_markup=kazan_button)
+
+
+def notify_users(chat_id, offer):
+    users_in_kazan = db.list_users_in_kazan(chat_id)
+    for user in users_in_kazan:
+        user_id = user['_id']
+        take_button.add(
+            types.InlineKeyboardButton('Take', 
+                                       callback_data='take {} {}'.format(user_id, offer_number)
+                                       )
+            )
+        bot.send_message(
+            user_id,
+            list_offers.format(
+                offer['shop'],
+                offer['item'],
+                offer['bounty'],
+                ), reply_markup=take_button
+            )
+        
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
@@ -171,3 +215,15 @@ def callback_inline(call):
         except KeyError as e:
             bot.answer_callback_query(callback_query_id=call.id)
             print('error')
+    
+    if 'kazan' in response:
+        try:
+            number = response[2]
+            if number == 1:
+                db.kazan_status(chat_id, number)
+                bot.answer_callback_query(callback_query_id=call.id)
+                bot.send_message(chat_id, arrive_message)
+            else:
+                db.kazan_status(chat_id, number)
+                bot.answer_callback_query(callback_query_id=call.id)
+                bot.send_message(chat_id, left_message)

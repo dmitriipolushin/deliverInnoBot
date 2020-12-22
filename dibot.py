@@ -14,9 +14,6 @@ from TOKEN import *
 app = flask.Flask(__name__)
 app.debug = False
 
-URL = '64.225.2.250'
-WEBHOOK_URL_PATH = '/{}'.format(TOKEN)
-
 
 @app.route(WEBHOOK_URL_PATH, methods=['POST'])
 def webhook():
@@ -33,7 +30,7 @@ def webhook():
 #Set_webhook 
 @app.route('/set_webhook', methods=['GET', 'POST']) 
 def set_webhook(): 
-    s = bot.set_webhook('https://{}:443/{}'.format(URL, TOKEN), open('/etc/ssl/dmitrii/server.crt', 'rb')) 
+    s = bot.set_webhook(WEBHOOK_URL, open('/etc/ssl/dmitrii/server.crt', 'rb')) 
     if s:
         print(s)
         return "webhook setup ok" 
@@ -99,6 +96,7 @@ def operations(message, operation):
         'takenoffers': lambda: lists.taken_offers(
             message
             ),
+        'profile': 
     }
     try:
         return set_of_operations[operation.lower()]()
@@ -154,6 +152,9 @@ def choose_section(message):
         message: answer from telegram api.
     """
     msg = message.text
+    
+    chat_id = message.chat.id
+    db.change_profile(chat_id)
 
     operations(message, msg)  # Function to processes commands by given message
 
@@ -224,17 +225,18 @@ def approve_offer(message, approved, chat_id):
         chat_id ([type]): id of user that offer we should approve
     """
     if approved:
-        db.approve_offer(chat_id)
+        offer = db.approve_offer(chat_id)
         
         bot.send_message(int(chat_id), 
                          messages.confirm_offer,
                          reply_markup=keyboard_main
                          )
+        lists.notify_users(chat_id, offer)
     
     else:
         bot.send_message(chat_id, 
                          messages.drop_offer,
                          reply_markup=keyboard_main
                          )
-
+    
     bot.register_next_step_handler(message, choose_section)

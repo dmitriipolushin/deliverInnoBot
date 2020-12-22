@@ -5,6 +5,7 @@ keyboard_main = types.ReplyKeyboardMarkup(True, one_time_keyboard=True)
 keyboard_main.row(
     '📌 Add Offer',
     '🗓 Offers List',
+    '🧸 Profile'
     )
 # keyboard to navigate over different offers lists
 keyboard_offers_list = types.ReplyKeyboardMarkup(True)

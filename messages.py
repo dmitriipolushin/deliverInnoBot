@@ -56,3 +56,9 @@ no_offers_to_delete = "You haven't offers to delete"
 offer_not_exists = 'You trying to delete offer that does not exists'
 
 choose_section = 'Choose section'
+
+profile_message = 'Published offers: {}\nTaken offers: {}'
+
+arrive_message = 'Your status changed. From now you will recieve notifications for all new offers'
+
+left_message = 'Your status changed. From now you will not recieve notifications'
