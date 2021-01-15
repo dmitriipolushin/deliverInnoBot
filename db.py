@@ -134,8 +134,6 @@ def delete_published_offer(chat_id, offer_id):
         offer_id (string): id of offer that we need to delete
     """
     user = db.users.find_one({'_id': chat_id})
-    print('offer deleted')
-    print(user['published_offers'][offer_id])
     del user['published_offers'][offer_id]
     db.users.save(user)
 
@@ -148,8 +146,6 @@ def delete_taken_offer(chat_id, offer_id):
         offer_id (string): id of offer that we need to delete
     """
     user = db.users.find_one({'_id': chat_id})
-    print('offer deleted')
-    print(user['taken_offers'][offer_id])
     del user['taken_offers'][offer_id]
     db.users.save(user)
     

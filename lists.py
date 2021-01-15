@@ -31,7 +31,6 @@ def published_offers(message):
                                         )
             )
         if 'alias' in offers_list[offer_number]:
-            print(offers_list[offer_number])
             bot.send_message(
                 chat_id,
                 taken_published_offer.format(
